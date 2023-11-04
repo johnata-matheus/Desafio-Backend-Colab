@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.colab.dtos.SkillResponseDto;
 import br.com.colab.dtos.request.SkillRequestDto;
+import br.com.colab.dtos.response.SkillResponseDto;
 import br.com.colab.models.Skill;
 import br.com.colab.repositories.SkillRepository;
 
@@ -30,7 +30,7 @@ public class SkillService {
     return skillDto;
   }
 
-  public ResponseEntity<SkillResponseDto> getSkillById(Long id){
+  public ResponseEntity<SkillResponseDto> findSkillById(Long id){
     Optional<Skill> skillId = skillRepository.findById(id);
     if(skillId.isPresent()){
       Skill skill = skillId.get();
@@ -60,15 +60,10 @@ public class SkillService {
   }
 
   public ResponseEntity<Object> deleteSkillById(Long id){
-    return skillRepository.findById(id).map(taskToDelete -> {
+    return skillRepository.findById(id).map(skillToDelete -> {
       skillRepository.deleteById(id);
       return ResponseEntity.noContent().build();
     }).orElse(ResponseEntity.notFound().build());
   }
-
-
-  
-  
-    
 
 }
